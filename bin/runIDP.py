@@ -328,7 +328,8 @@ elif LR_pathfilename != "" and genome_pathfilename != "":
         print_run(removeAdapterPolyA_cmd)
 
         if aligner_choice == "gmap":
-            gmap_cmd = python_bin_foldername + "gmap_threading.py " + gmap_path + " -f 1 -x 100 -t " + str(Nthread) + " --intronlength=" + L_junction_limit + " " +  temp_foldername + "LR_notailspolyA.fa " + " " + gmap_index_pathfoldername + " " + temp_foldername + "LR_notailspolyA.psl"
+            #gmap_cmd = python_bin_foldername + "gmap_threading.py " + gmap_path + " -f 1 -x 100 -t " + str(Nthread) + " --intronlength=" + L_junction_limit + " " +  temp_foldername + "LR_notailspolyA.fa " + " " + gmap_index_pathfoldername + " " + temp_foldername + "LR_notailspolyA.psl"
+            gmap_cmd = python_bin_foldername + "gmap_threading.py " + gmap_path + " -f 1 -x 100 -t " + str(Nthread) + "  " +  temp_foldername + "LR_notailspolyA.fa " + " " + gmap_index_pathfoldername + " " + temp_foldername + "LR_notailspolyA.psl"
             print_run(gmap_cmd)
         else:
             blat_cmd = python_bin_foldername + "blat_threading.py " + blat_path + " " + str(Nthread) + " -noHead  -t=DNA -q=DNA -maxIntron=" + L_junction_limit + " " + genome_pathfilename + " " + temp_foldername + "LR_notailspolyA.fa " + temp_foldername + "LR_notailspolyA.psl"
@@ -353,7 +354,8 @@ elif LR_pathfilename != "" and genome_pathfilename != "":
     else:
         if (aligner_choice == "gmap"):
           print gmap_path
-          gmap_cmd = python_bin_foldername + "gmap_threading.py " + gmap_path + " -f 1 -x 100 -t " + str(Nthread) + " --intronlength=" +  L_junction_limit + " " + LR_pathfilename + " " + gmap_index_pathfoldername + " " + temp_foldername + "LR.psl"
+          #gmap_cmd = python_bin_foldername + "gmap_threading.py " + gmap_path + " -f 1 -x 100 -t " + str(Nthread) + " --intronlength=" +  L_junction_limit + " " + LR_pathfilename + " " + gmap_index_pathfoldername + " " + temp_foldername + "LR.psl"
+          gmap_cmd = python_bin_foldername + "gmap_threading.py " + gmap_path + " -f 1 -x 100 -t " + str(Nthread) + "  " + LR_pathfilename + " " + gmap_index_pathfoldername + " " + temp_foldername + "LR.psl"
           print_run(gmap_cmd)
         else:
           blat_cmd = python_bin_foldername + "blat_threading.py " + blat_path + " " + str(Nthread) + " -noHead -t=DNA -q=DNA -maxIntron=" + L_junction_limit + " " + genome_pathfilename + " " + LR_pathfilename + " " + temp_foldername + "LR.psl"
@@ -393,7 +395,8 @@ if (fusion_mode and (I_LR_step > 0)):  # In case of gpd file, LR.gpd_fusion alre
     print_run(gen_fusion_query_cmd)
 
     if aligner_choice == "gmap":
-       gmap_cmd = python_bin_foldername + "gmap_threading.py " + gmap_path + " -f 1 -n 10 -t " + str(Nthread) + " --intronlength=" +  L_junction_limit + " " + temp_foldername + "LR.fa_fusion_pair " + gmap_index_pathfoldername + " " + temp_foldername + "LR.fa_fusion_pair.psl "
+       #gmap_cmd = python_bin_foldername + "gmap_threading.py " + gmap_path + " -f 1 -n 10 -t " + str(Nthread) + " --intronlength=" +  L_junction_limit + " " + temp_foldername + "LR.fa_fusion_pair " + gmap_index_pathfoldername + " " + temp_foldername + "LR.fa_fusion_pair.psl "
+       gmap_cmd = python_bin_foldername + "gmap_threading.py " + gmap_path + " -f 1 -n 10 -t " + str(Nthread) + "  " + temp_foldername + "LR.fa_fusion_pair " + gmap_index_pathfoldername + " " + temp_foldername + "LR.fa_fusion_pair.psl "
        print_run(gmap_cmd)
     else:
        blat_cmd = python_bin_foldername + "blat_threading.py " + blat_path + " " + str(Nthread) + " -noHead -t=DNA -q=DNA -maxIntron=" + L_junction_limit + " " + genome_pathfilename + " " + temp_foldername + "LR.fa_fusion_pair " + temp_foldername + "LR.fa_fusion_pair.psl "
