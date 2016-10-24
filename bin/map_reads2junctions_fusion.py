@@ -54,6 +54,8 @@ ref_str_len = len(str(num_lines / 2))
 junction_ref_file = open(fusion_ref_filename, 'r')
 i = 1
 
+# Lets not store these references in separate files.
+file = open(splice_mapper_ref_foldername + 'ref_1.fa', 'w')
 while (True):
     line = junction_ref_file.readline()
     if not line:
@@ -66,11 +68,10 @@ while (True):
         print("Err: Invalid fasta format")
         exit(1)
     filename = 'ref_' + ''.join(['0'] * (ref_str_len - len(str(i)))) + str(i)
-    file = open(splice_mapper_ref_foldername + filename + '.fa', 'w')
     file.write('>' + filename + '\n')
-    file.write(line)
-    file.close()
+    file.write(line.rstrip()+"\n")
     i += 1
+file.close()
 
 junction_ref_file.close()
 
