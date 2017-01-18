@@ -98,6 +98,7 @@ def main():
   reference_read_count_filename = sys.argv[4]
   psl_filename = sys.argv[5]
   uniqueness_bedgraph_filename = sys.argv[6]
+  # can be '-' to indicate no data
   output_file = sys.argv[7]
   output_genepred_filename = sys.argv[8]
   temp_foldername = sys.argv[9]
@@ -257,6 +258,7 @@ def get_fusion_uniqueness(fusion_gpds, fusion_coordinates):
 #post: returns nothing, but it modifies fusion_coordinates to have the uniqueness score
 #
 def get_coordinate_uniqueness(uniqueness_bedgraph_filename, fusion_coordinates):
+  if uniqueness_bedgraph_filename=='-': return
   with open(uniqueness_bedgraph_filename) as infile:
     for line in infile:
       f = line.rstrip().split("\t")
