@@ -15,17 +15,16 @@ else:
 
 
 ########
-# Note: This is very slow for multi-line fa files
+# Fasta read
 chr_seq = dict()
 file = open(ref_filename, 'r')
-chr = ''
-for line in file:
-    line = line.strip()
-    if (line[0] == '>'):
-        chr = line[1:]
-        chr_seq[chr] = ''
-    else:
-        chr_seq[chr] = chr_seq[chr] + line
+p = re.compile('>([^\n]+)\n([^>]+)')
+for m in p.finditer(file.read()):
+  m1 = re.match('(\S+)',m.group(1))
+  seq = m.group(2).replace("\n",'')
+  seq = seq.replace("\r",'')
+  seq = seq.replace(" ",'')
+  chr_seq[m1.group(1)] = seq
 file.close()
 
 ########
