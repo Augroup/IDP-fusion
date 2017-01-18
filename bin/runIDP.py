@@ -160,7 +160,12 @@ for key in cfg_dt:   # Assign variables from configuration file
     elif key == "transcriptome_bowtie2_index_pathfilename":
         transcriptome_bowtie2_index_pathfilename = os.path.abspath(cfg_dt[key])
     elif key == "uniqueness_bedGraph_pathfilename":
-        uniqueness_bedGraph_pathfilename = os.path.abspath(cfg_dt[key])
+        if cfg_dt[key] == 'STAR':
+          uniqueness_bedGraph_pathfilename = '' # already installed
+        if re.match('\S',cfg_dt[key]):
+          uniqueness_bedGraph_pathfilename = os.path.abspath(cfg_dt[key])
+        else:
+          uniqueness_bedGraph_pathfilename = os.path.abspath(cfg_dt[key])
     elif key == "gmap_index_pathfoldername":
         gmap_index_pathfoldername = os.path.abspath(cfg_dt[key])
     elif key == "min_junction_overlap_len":
@@ -234,7 +239,11 @@ for key in cfg_dt:   # Assign variables from configuration file
     elif key == "mapsplice_path":
         mapsplice_path = os.path.abspath(cfg_dt[key])
     elif key == "star_path":
-        star_path = os.path.abspath(cfg_dt[key])
+        if re.match('\S',star_path):
+          if os.path.isfile(star_path):
+            # add some fault tolerance to work whether they give the directory or command
+            star_path = os.path.dirname(star_path)
+          star_path = os.path.abspath(cfg_dt[key])
 
     elif key == "L_junction_limit":
         L_junction_limit = int(cfg_dt[key])
@@ -472,6 +481,7 @@ if (fusion_mode and (I_LR_step > 0)):  # In case of gpd file, LR.gpd_fusion alre
     print_run(unique_names_cmd)
 
     min_junction_overlap_len_star = 12
+    if splice_mapper_path == "": splice_mapper_path = '-'
     map_reads_cmd = (python_bin_foldername + "map_reads2junctions_fusion.py  1 " + temp_foldername + "LR_fusion_candidates.fa " +
                      SR_unique_pathfilename + " " + str(Nthread) + " " +
                      temp_foldername + "LR_fusion_candidates.gpd " + temp_foldername + "LR_fusion.gpd.notused " +

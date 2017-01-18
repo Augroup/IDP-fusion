@@ -18,6 +18,9 @@ if len(sys.argv) >= 8:
     python_path =  sys.argv[10]
     bin_foldername = sys.argv[11]
     splice_mapper_path = sys.argv[12]
+    # - indicates its installed, so if it is we will just use STAR
+    if splice_mapper_path == '-': splice_mapper_path = ""
+    else: splice_mapper_path += '/'
     splice_mapper_type = sys.argv[13]
     splice_mapper_options = sys.argv[14:]
     
@@ -78,14 +81,14 @@ junction_ref_file.close()
 if (run_aligner):
     if (splice_mapper_type == "STAR"):
         os.system("mkdir " + splice_mapper_out_foldername + "/genome")
-        star_cmnd = (splice_mapper_path + "/STAR --genomeChrBinNbits 16 --runMode genomeGenerate --genomeDir " + splice_mapper_out_foldername + 
+        star_cmnd = (splice_mapper_path + "STAR --genomeChrBinNbits 16 --runMode genomeGenerate --genomeDir " + splice_mapper_out_foldername + 
                      "/genome --genomeFastaFiles " + splice_mapper_ref_foldername + "/*   --runThreadN " + str(num_threads))
         print(star_cmnd)
         os.system(star_cmnd)
 
         begin_dir = os.getcwd()
         os.chdir(splice_mapper_out_foldername)
-        star_cmnd = (splice_mapper_path + "/STAR --genomeDir " + splice_mapper_out_foldername + 
+        star_cmnd = (splice_mapper_path + "STAR --genomeDir " + splice_mapper_out_foldername + 
                      "/genome --readFilesIn " + unmapped_reads_filename + " --runThreadN " + str(num_threads) + 
                       " --outSJfilterCountUniqueMin 0 0 0 0 --outSJfilterCountTotalMin 1 1 1 1 " + 
                       " --outSJfilterOverhangMin " + ' '.join([str(min_junction_overlap_len)] * 4) + " " + 
