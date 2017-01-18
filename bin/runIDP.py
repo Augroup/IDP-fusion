@@ -85,7 +85,7 @@ else:
 ################################################################################
 # Initialize variables from configuration
 python_path = "/usr/bin/python"
-aligner_choice = "blat"
+aligner_choice = "gmap"
 estimator_choice = "MAP"
 blat_path = "blat"
 gmap_path = "gmap"
@@ -158,14 +158,13 @@ for key in cfg_dt:   # Assign variables from configuration file
     elif key == "genome_bowtie2_index_pathfilename":
         genome_bowtie2_index_pathfilename = os.path.abspath(cfg_dt[key])
     elif key == "transcriptome_bowtie2_index_pathfilename":
+      if re.match('\S',transcriptome_bowtie2_index_pathfilename):
         transcriptome_bowtie2_index_pathfilename = os.path.abspath(cfg_dt[key])
     elif key == "uniqueness_bedGraph_pathfilename":
-        if cfg_dt[key] == 'STAR':
-          uniqueness_bedGraph_pathfilename = '' # already installed
         if re.match('\S',cfg_dt[key]):
           uniqueness_bedGraph_pathfilename = os.path.abspath(cfg_dt[key])
         else:
-          uniqueness_bedGraph_pathfilename = os.path.abspath(cfg_dt[key])
+          uniqueness_bedGraph_pathfilename = '-'
     elif key == "gmap_index_pathfoldername":
         gmap_index_pathfoldername = os.path.abspath(cfg_dt[key])
     elif key == "min_junction_overlap_len":
@@ -239,7 +238,9 @@ for key in cfg_dt:   # Assign variables from configuration file
     elif key == "mapsplice_path":
         mapsplice_path = os.path.abspath(cfg_dt[key])
     elif key == "star_path":
-        if re.match('\S',star_path):
+        if cfg_dt[key] == 'STAR':
+          star_path = '' # already installed to path
+        elif re.match('\S',star_path):
           if os.path.isfile(star_path):
             # add some fault tolerance to work whether they give the directory or command
             star_path = os.path.dirname(star_path)
@@ -506,6 +507,11 @@ if (fusion_mode and (I_LR_step > 0)):  # In case of gpd file, LR.gpd_fusion alre
       fusion_read_genepred_pathfilename = temp_foldername+"LR_fusion.gpd"
       fusion_read_count_cmd = python_bin_foldername+"find_fusion_uniqueness.py "+temp_foldername+"LR_fusion_candidates.fa.info "+SR_unique_pathfilename+" "+temp_foldername+"star_out/Aligned.out.sam "+reference_read_count_pathfilename+" "+temp_foldername+"newname4_LR.bestpsl_fusion_pair "+uniqueness_bedGraph_pathfilename+" "+fusion_read_count_pathfilename+" "+fusion_read_genepred_pathfilename+" "+temp_foldername+" "+str(min_LR_fusion_point_search_distance)+" "+str(LR_fusion_point_err_margin)+" "+str(L_min_intron)
       print_run(fusion_read_count_cmd)
+
+    if os.path.isfile(temp_foldername+"junctions.txt"):
+      report_cmd = python_bin_foldername + "make_fusion_report.py " +ref_gpd_pathfilename + " " + genome_pathfilename + " " + temp_foldername + "junctions.txt > "+temp_foldername+"fusion_report.tsv"
+      print_run(report_cmd)
+      print_run("cp " + temp_foldername + "fusion_report.tsv " + output_foldername + "fusion_report.tsv")
 
 # To set the value if skipping step=1
 if (SR_aligner_choice  == "STAR"):
