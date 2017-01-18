@@ -86,11 +86,11 @@ if (run_aligner):
         begin_dir = os.getcwd()
         os.chdir(splice_mapper_out_foldername)
         star_cmnd = (splice_mapper_path + "/STAR --genomeDir " + splice_mapper_out_foldername + 
-                     "/genome --readFilesIn " + unmapped_reads_filename + " --runThreadN " + str(num_threads) +
-                      " --outSJfilterCountUniqueMin 0 0 0 0 --outSJfilterCountTotalMin 1 1 1 1 " +
-                      " --outSJfilterOverhangMin " + ' '.join([str(min_junction_overlap_len)] * 4) + " " +
-                      " ".join(splice_mapper_options) + " --alignTranscriptsPerReadNmax " + str(num_lines / 2) + 
-                      " --outFilterMultimapNmax " + str(num_lines / 2) + " --alignWindowsPerReadNmax " + str(num_lines / 2)) 
+                     "/genome --readFilesIn " + unmapped_reads_filename + " --runThreadN " + str(num_threads) + 
+                      " --outSJfilterCountUniqueMin 0 0 0 0 --outSJfilterCountTotalMin 1 1 1 1 " + 
+                      " --outSJfilterOverhangMin " + ' '.join([str(min_junction_overlap_len)] * 4) + " " + 
+                      " ".join(splice_mapper_options) +
+                      " --outFilterMultimapNmax " + str(num_lines / 2))
         
         print(star_cmnd)
         os.system(star_cmnd)
