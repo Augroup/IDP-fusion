@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 import sys, os, re
 import sequence_basics, aligner_basics, sam_basics, genepred_basics
 
