@@ -132,7 +132,7 @@ $ docker run -v $(pwd):/home vacation/idp-fusion \
              bowtie2-build data/chr20.fa bowtie2/bowtie2index
 ```
 
-#### 4. Run IDP-fusion
+#### 5. Run IDP-fusion
 
 On a normal run you will create your own configuration file to describe the run.
 
